@@ -16,7 +16,6 @@ O projeto apresenta uma identidade visual única no estilo **"Vintage Dark"** co
 - **📂 Sidebar de Navegação:** Menu lateral para acesso rápido ao Perfil, Filtros e Ajuda.
 - **👤 Perfil de Usuário:** Visualização e edição simulada de dados do usuário (Foto, Email, Bio).
 - **ℹ️ Central de Ajuda:** Informações sobre como usar a plataforma e dicas de segurança.
-- **🧪 Modo Mock:** Sistema integrado para testes sem necessidade de backend ativo.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -32,5 +31,5 @@ Siga os passos abaixo para rodar o projeto localmente.
 
 ### 1. Clonar o repositório
 ```bash
-git clone [https://github.com/ViniciusNoetzold/Atitus-2025-2-Conect-Pet-Trabalho-G2.git](https://github.com/ViniciusNoetzold/Atitus-2025-2-Conect-Pet-Trabalho-G2.git)
+git clone https://github.com/ViniciusNoetzold/Atitus-2025-2-Conect-Pet-Trabalho-G2.git
 cd conect-pet
