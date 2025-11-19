@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+    height: 100%;
+    background-color: #2B2B24;
+    color: #F7EEDD;
+    /* overflow: hidden; */
+    margin: 0;
+    padding: 0;
+}
+
+/* --- ANIMAÇÕES --- */
+
+.animated-pet-icon,
+.animated-toy-icon {
+    position: absolute;
+    z-index: 0;
+    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    will-change: transform, top;
+}
+
+.animated-pet-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.animated-toy-icon {
+    width: 70px;
+    height: 70px;
+}
+
+/* ATUALIZAÇÃO: Adicionados tempos negativos (ex: -5s) 
+   Isso faz a animação começar "já andando", em posições aleatórias da tela.
+*/
+
+/* -- CACHORRO -- */
+.dog-head {
+    animation:
+        moveX 15s linear infinite alternate -5s,
+        moveY 23s linear infinite alternate -12s;
+}
+
+/* -- GATO -- */
+.cat-head {
+    animation:
+        moveX 19s linear infinite alternate-reverse -15s,
+        moveY 13s linear infinite alternate-reverse -2s;
+}
+
+/* -- OSSO -- */
+.bone {
+    animation:
+        moveX 11s linear infinite alternate -8s,
+        moveY 17s linear infinite alternate-reverse -20s;
+}
+
+/* -- NOVELO -- */
+.yarn-ball {
+    animation:
+        moveX 17s linear infinite alternate-reverse -3s,
+        moveY 29s linear infinite alternate -10s;
+}
+
+@keyframes moveX {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(100vw - 120px));
+    }
+}
+
+@keyframes moveY {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: calc(100vh - 120px);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .animated-pet-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .animated-toy-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    @keyframes moveX {
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+            transform: translateX(calc(100vw - 80px));
+        }
+    }
+
+    @keyframes moveY {
+        from {
+            top: 0;
+        }
+
+        to {
+            top: calc(100vh - 80px);
+        }
+    }
+}

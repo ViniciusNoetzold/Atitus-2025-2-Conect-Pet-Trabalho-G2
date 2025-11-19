@@ -1,0 +1,132 @@
+/* Barra de Navegação */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #2B2B24;
+    color: #F7EEDD;
+    border-bottom: 3px solid #000;
+    height: 65px;
+    position: relative;
+    z-index: 40;
+}
+
+.menu-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.menu-icon:active {
+    transform: scale(0.95);
+}
+
+/* --- SIDEBAR --- */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sidebar-content {
+    width: 70%;
+    max-width: 300px;
+    height: 100%;
+    background-color: #2B2B24;
+    border-left: 3px solid #000;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.3s ease-out;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+}
+
+.close-menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #F7EEDD;
+}
+
+/* Container para opções do topo - OCUPA O ESPAÇO LIVRE */
+.sidebar-options-top {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* Aumentado para dar mais espaçamento entre os botões */
+    flex: 1;
+    /* Faz este container crescer e empurrar o rodapé */
+}
+
+/* Container para o rodapé (Sair) - FICA NO FUNDO */
+.sidebar-options-bottom {
+    padding-top: 20px;
+    margin-top: auto;
+    /* Garante alinhamento no final se o flex falhar */
+}
+
+/* Estilo do seletor de cores */
+.color-picker-container {
+    background-color: #F7EEDD;
+    padding: 15px;
+    border: 3px solid #000;
+    border-radius: 15px;
+    margin-top: 10px;
+    box-shadow: 4px 4px 0px #000000;
+}
+
+/* Botões do Menu */
+.sidebar-btn {
+    background-color: #F7EEDD;
+    color: #000;
+    font-family: 'Arial', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    padding: 15px 20px;
+    border: 3px solid #000;
+    border-radius: 30px;
+    box-shadow: 4px 4px 0px #000000;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.1s;
+    width: 100%;
+}
+
+.sidebar-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000000;
+}
+
+/* Estilo específico para o botão Sair */
+.sidebar-logout {
+    background-color: #A35E49;
+    /* Cor de acento */
+    color: #F7EEDD;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}

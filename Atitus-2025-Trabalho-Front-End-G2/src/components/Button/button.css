@@ -1,0 +1,27 @@
+.button {
+    /* Estilo de botão do Figma: Acento Marrom, Borda Preta */
+    border-radius: 0;
+    border: 3px solid #000000;
+    color: #F7EEDD;
+    background-color: #A35E49;
+    /* Cor de acento */
+    padding: 12px 30px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0px #000000;
+    /* Efeito 3D blocky */
+}
+
+.button:hover {
+    background-color: #C17C64;
+    box-shadow: 2px 2px 0px #000000;
+}
+
+.button:active {
+    background-color: #A35E49;
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
