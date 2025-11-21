@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://ripe-donella-atitus-fbbf314a.koyeb.app';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://written-katuscha-atitusvininoetz-28c4d976.koyeb.app';
 
 export const api = axios.create({
     baseURL: BASE_URL,
