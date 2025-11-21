@@ -17,23 +17,31 @@ export function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("1. Botão clicado! Iniciando login...");
     setErro("");
-    try {
-      const response = await signIn(email, senha);
 
-      // CORREÇÃO AQUI:
-      // O backend pode retornar um objeto { token: "..." } OU apenas a string do token "..."
-      // Essa linha garante que funcione nos dois casos
+    try {
+      console.log("2. Tentando conectar com:", email);
+      const response = await signIn(email, senha);
+      console.log("3. Resposta do servidor recebida:", response);
+
+      // Verifica o formato do token
       const token = response.token || response;
+      console.log("4. Token extraído:", token);
 
       if (!token) {
-        throw new Error("Token não encontrado na resposta.");
+        throw new Error("Token veio vazio ou indefinido!");
       }
 
+      console.log("5. Salvando login...");
       login(token);
+
+      console.log("6. Redirecionando para o mapa...");
       navigate("/map");
+
     } catch (err) {
-      setErro(err.message || "Erro ao conectar com o servidor");
+      console.error("❌ ERRO NO LOGIN:", err);
+      setErro(err.message || "Erro desconhecido");
     }
   };
 
@@ -82,7 +90,7 @@ export function Login() {
             {erro && <p style={{ color: "#A35E49" }} className="text-center pb-4 font-bold">{erro}</p>}
 
             <div className="text-center pt-8">
-              {/* Removi o onClick={handleSubmit} daqui pois o form onSubmit já cuida disso */}
+              { }
               <Button type="submit">
                 ACESSAR
               </Button>
