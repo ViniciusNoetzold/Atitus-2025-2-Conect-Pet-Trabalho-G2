@@ -22,25 +22,25 @@ export const Help = () => {
             { }
             <div className="w-full max-w-md flex flex-col gap-6">
                 { }
-                <div className="bg-[#F7EEDD] p-6 border-4 border-black shadow-[8px_8px_0_0_#A35E49] text-black">
+                <div className="bg-[#F7EEDD] p-6 border-4 border-black shadow-[8px_8px_0_0_#A35E49] text-black transition-transform hover:-translate-y-1">
                     <h3 className="text-xl font-black uppercase mb-2 border-b-2 border-black pb-1">Como adicionar um Pet?</h3>
                     <p className="text-sm font-medium leading-relaxed">
                         1. Vá para a tela do mapa.<br />
                         2. Clique exatamente no local onde o pet foi visto.<br />
-                        3. Preencha a descrição e, se possível, adicione uma foto.<br />
-                        4. Clique em "SALVAR PET".
+                        3. Preencha o nome, descrição e escolha a cor do pino.<br />
+                        4. Clique em "SALVAR".
                     </p>
                 </div>
                 { }
-                <div className="bg-[#F7EEDD] p-6 border-4 border-black shadow-[8px_8px_0_0_#A35E49] text-black">
+                <div className="bg-[#F7EEDD] p-6 border-4 border-black shadow-[8px_8px_0_0_#A35E49] text-black transition-transform hover:-translate-y-1">
                     <h3 className="text-xl font-black uppercase mb-2 border-b-2 border-black pb-1">Termos de Uso</h3>
                     <p className="text-sm font-medium leading-relaxed text-justify">
                         Ao cadastrar um animal, você declara que as informações são verdadeiras.
-                        O <strong>Conect Pet</strong> não se responsabiliza pela guarda dos animais, apenas facilitamos a conexão entre quem encontrou e quem quer adotar.
+                        O <strong>Conect Pet</strong> não se responsabiliza pela guarda dos animais, apenas facilitamos a conexão.
                     </p>
                 </div>
                 { }
-                <div className="bg-[#F7EEDD] p-6 border-4 border-black shadow-[8px_8px_0_0_#A35E49] text-black">
+                <div className="bg-[#F7EEDD] p-6 border-4 border-black shadow-[8px_8px_0_0_#A35E49] text-black transition-transform hover:-translate-y-1">
                     <h3 className="text-xl font-black uppercase mb-2 border-b-2 border-black pb-1">Dicas de Segurança</h3>
                     <ul className="text-sm font-medium list-disc list-inside">
                         <li>Marque encontros em locais públicos.</li>
@@ -51,11 +51,11 @@ export const Help = () => {
                 { }
                 <div className="mt-8 text-center border-t-2 border-[#F7EEDD] pt-6">
                     <p className="text-[#F7EEDD] font-bold text-lg mb-2">Fale Conosco</p>
-                    <a href="mailto:nossoemail@gmail.com" className="text-[#A35E49] font-black text-xl hover:underline block mb-4">
-                        nossoemail@gmail.com
+                    <a href="mailto:pypetsconect@gmail.com" className="text-[#A35E49] font-black text-xl hover:underline block mb-4">
+                        pypetsconect@gmail.com
                     </a>
                     <div className="text-[#6d6d6d] text-sm font-bold flex flex-col items-center gap-1">
-                        <span>© 2025 PyPet</span>
+                        <span>© 2025 Conect Pet</span>
                         <span>Todos os direitos reservados ®</span>
                     </div>
                 </div>
