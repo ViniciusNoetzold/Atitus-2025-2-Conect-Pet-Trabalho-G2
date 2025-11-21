@@ -17,7 +17,9 @@ export function Login() {
     e.preventDefault();
     setErro("");
     try {
-      const { token } = await signIn(email, senha);
+      const response = await signIn(email, senha);
+      const token = response.token || response;
+
       login(token);
       navigate("/map");
     } catch (err) {
