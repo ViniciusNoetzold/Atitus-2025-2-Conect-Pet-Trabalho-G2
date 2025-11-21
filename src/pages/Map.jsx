@@ -3,44 +3,34 @@ import { Navbar, Input, Button } from "../components";
 import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
 import { getPoints, postPoint } from '../services/mapService';
 import { useAuth } from "../contexts/AuthContext";
-
 const containerStyle = {
   width: "100%",
   height: "calc(100vh - 65px)",
 };
-
 const defaultCenter = {
   lat: -23.55052,
   lng: -46.633308,
 };
-
-// Ícone SVG para coloração dinâmica
 const PIN_ICON_PATH = "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z";
-
 const COLOR_OPTIONS = [
-  "#E53E3E", // Vermelho
-  "#3182CE", // Azul
-  "#38A169", // Verde
-  "#D69E2E", // Amarelo
-  "#805AD5"  // Roxo
+  "#E53E3E",
+  "#3182CE",
+  "#38A169",
+  "#D69E2E",
+  "#805AD5"
 ];
-
 export const Map = () => {
   const { token } = useAuth();
   const [markers, setMarkers] = useState([]);
-
   const [newPointCoords, setNewPointCoords] = useState(null);
   const [newPointDescription, setNewPointDescription] = useState("");
   const [newPointImage, setNewPointImage] = useState(null);
   const [newPointColor, setNewPointColor] = useState(COLOR_OPTIONS[0]);
-
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [showMyPetsOnly, setShowMyPetsOnly] = useState(false);
-
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
   });
-
   useEffect(() => {
     async function fetchMarkers() {
       try {
@@ -52,16 +42,13 @@ export const Map = () => {
     }
     fetchMarkers();
   }, [token]);
-
   const toggleMyPetsFilter = () => {
     setShowMyPetsOnly(!showMyPetsOnly);
     setSelectedMarker(null);
   };
-
   const filteredMarkers = showMyPetsOnly
     ? markers.filter(marker => marker.isMyPet)
     : markers;
-
   const handleMapClick = (event) => {
     setSelectedMarker(null);
     const lat = event.latLng.lat();
@@ -71,22 +58,18 @@ export const Map = () => {
     setNewPointImage(null);
     setNewPointColor(COLOR_OPTIONS[0]);
   };
-
   const handleMarkerClick = (marker) => {
     setNewPointCoords(null);
     setSelectedMarker(marker);
   };
-
   const handleSavePoint = async (e) => {
     e.preventDefault();
     if (!newPointCoords || !newPointDescription.trim()) {
       alert("A descrição é obrigatória.");
       return;
     }
-
     const isImageAttached = !!newPointImage;
     let dataToSend;
-
     if (isImageAttached) {
       dataToSend = new FormData();
       dataToSend.append('latitude', newPointCoords.lat);
@@ -102,10 +85,8 @@ export const Map = () => {
         color: newPointColor,
       };
     }
-
     try {
       const savedPoint = await postPoint(token, dataToSend, isImageAttached);
-
       const savedMarker = {
         id: savedPoint.id,
         title: savedPoint.descricao || newPointDescription.trim(),
@@ -114,7 +95,6 @@ export const Map = () => {
         color: newPointColor,
         isMyPet: true
       };
-
       setMarkers((prev) => [...prev, savedMarker]);
       setNewPointCoords(null);
       setNewPointDescription("");
@@ -123,12 +103,10 @@ export const Map = () => {
       alert(error.message);
     }
   };
-
   return (
     <>
-      {/* CORREÇÃO: Passando as props corretamente para a Navbar */}
+      { }
       <Navbar onFilterMyPets={toggleMyPetsFilter} showMyPetsOnly={showMyPetsOnly} />
-
       <div style={{ width: "100%", height: "calc(100vh - 65px)" }}>
         {isLoaded ? (
           <GoogleMap
@@ -154,7 +132,6 @@ export const Map = () => {
                 }}
               />
             ))}
-
             {selectedMarker && (
               <InfoWindow
                 position={selectedMarker.position}
@@ -184,7 +161,6 @@ export const Map = () => {
                 </div>
               </InfoWindow>
             )}
-
             {newPointCoords && (
               <Marker
                 position={newPointCoords}
@@ -205,7 +181,6 @@ export const Map = () => {
             <h1 className="text-white text-2xl">Carregando mapa...</h1>
           </div>
         )}
-
         {newPointCoords && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#F7EEDD] p-6 rounded-none border-4 border-[#000000] shadow-[10px_10px_0_0_#A35E49] z-20 w-80 text-[#000000]">
             <h2 className="text-xl font-bold mb-4 uppercase text-center">Cadastrar Novo Pet</h2>
@@ -220,7 +195,6 @@ export const Map = () => {
                   onChange={(e) => setNewPointDescription(e.target.value)}
                 />
               </div>
-
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-1">Foto do Pet (Opcional)</label>
                 <input
@@ -245,7 +219,6 @@ export const Map = () => {
                   {newPointImage ? newPointImage.name : "Escolher arquivo..."}
                 </label>
               </div>
-
               <div className="mb-6">
                 <label className="block text-sm font-bold mb-2">Cor do Pino</label>
                 <div className="flex justify-center gap-3">
@@ -270,11 +243,9 @@ export const Map = () => {
                   ))}
                 </div>
               </div>
-
               <p className="text-sm mb-4 text-center">
                 Lat: {newPointCoords.lat.toFixed(4)}, Lng: {newPointCoords.lng.toFixed(4)}
               </p>
-
               <div className="flex justify-center gap-4">
                 <Button
                   type="button"

@@ -1,4 +1,3 @@
-/* Barra de Navegação */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -26,7 +25,6 @@
     transform: scale(0.95);
 }
 
-/* --- SIDEBAR --- */
 .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -65,24 +63,18 @@
     color: #F7EEDD;
 }
 
-/* Container para opções do topo - OCUPA O ESPAÇO LIVRE */
 .sidebar-options-top {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    /* Aumentado para dar mais espaçamento entre os botões */
     flex: 1;
-    /* Faz este container crescer e empurrar o rodapé */
 }
 
-/* Container para o rodapé (Sair) - FICA NO FUNDO */
 .sidebar-options-bottom {
     padding-top: 20px;
     margin-top: auto;
-    /* Garante alinhamento no final se o flex falhar */
 }
 
-/* Estilo do seletor de cores */
 .color-picker-container {
     background-color: #F7EEDD;
     padding: 15px;
@@ -92,7 +84,6 @@
     box-shadow: 4px 4px 0px #000000;
 }
 
-/* Botões do Menu */
 .sidebar-btn {
     background-color: #F7EEDD;
     color: #000;
@@ -114,10 +105,8 @@
     box-shadow: 2px 2px 0px #000000;
 }
 
-/* Estilo específico para o botão Sair */
 .sidebar-logout {
     background-color: #A35E49;
-    /* Cor de acento */
     color: #F7EEDD;
 }
 

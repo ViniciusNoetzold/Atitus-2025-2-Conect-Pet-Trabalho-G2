@@ -1,11 +1,9 @@
 .input {
-    /* Estilo de input do Figma: Fundo claro, Borda preta */
     background-color: #F7EEDD;
     border: 3px solid #000000;
     border-radius: 0;
     height: 50px;
     color: #2B2B24;
-    /* Texto escuro */
     padding: 10px 20px;
     width: 100%;
 }

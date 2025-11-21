@@ -6,12 +6,9 @@ body,
     height: 100%;
     background-color: #2B2B24;
     color: #F7EEDD;
-    /* overflow: hidden; */
     margin: 0;
     padding: 0;
 }
-
-/* --- ANIMAÇÕES --- */
 
 .animated-pet-icon,
 .animated-toy-icon {
@@ -34,32 +31,24 @@ body,
     height: 70px;
 }
 
-/* ATUALIZAÇÃO: Adicionados tempos negativos (ex: -5s) 
-   Isso faz a animação começar "já andando", em posições aleatórias da tela.
-*/
-
-/* -- CACHORRO -- */
 .dog-head {
     animation:
         moveX 15s linear infinite alternate -5s,
         moveY 23s linear infinite alternate -12s;
 }
 
-/* -- GATO -- */
 .cat-head {
     animation:
         moveX 19s linear infinite alternate-reverse -15s,
         moveY 13s linear infinite alternate-reverse -2s;
 }
 
-/* -- OSSO -- */
 .bone {
     animation:
         moveX 11s linear infinite alternate -8s,
         moveY 17s linear infinite alternate-reverse -20s;
 }
 
-/* -- NOVELO -- */
 .yarn-ball {
     animation:
         moveX 17s linear infinite alternate-reverse -3s,
@@ -86,7 +75,6 @@ body,
     }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
     .animated-pet-icon {
         width: 70px;

@@ -5,7 +5,6 @@ const API_POINT_URL = `${BASE_URL}/ws/point`;
 
 const IS_MOCKING = import.meta.env.VITE_MOCK_API === 'true';
 
-// Imagem SVG para simulação
 const MOCK_POINTS_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50%" x="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23A35E49">MOCK</text><rect x="5" y="5" width="90" height="90" fill="none" stroke="%23000000" stroke-width="2"/></svg>';
 
 const MOCK_POINTS = [
@@ -16,7 +15,7 @@ const MOCK_POINTS = [
     longitude: -46.623308,
     imageUrl: MOCK_POINTS_SVG,
     isMyPet: false,
-    color: "#FF0000" // Vermelho
+    color: "#FF0000"
   },
   {
     id: 102,
@@ -25,7 +24,7 @@ const MOCK_POINTS = [
     longitude: -46.645308,
     imageUrl: MOCK_POINTS_SVG,
     isMyPet: true,
-    color: "#3182CE" // Azul
+    color: "#3182CE"
   },
 ];
 
@@ -43,7 +42,6 @@ export async function getPoints(token) {
       },
       imageUrl: point.imageUrl,
       isMyPet: point.isMyPet,
-      // IMPORTANTE: Retornando a cor salva ou o padrão vermelho
       color: point.color || "#E53E3E",
     }));
     return new Promise((resolve) => setTimeout(() => resolve(points), 500));
@@ -63,7 +61,7 @@ export async function getPoints(token) {
       },
       imageUrl: point.imageUrl,
       isMyPet: false,
-      color: "#E53E3E", // Default para API real
+      color: "#E53E3E",
     }));
 
     if (response.status === 200) {
@@ -80,7 +78,6 @@ export async function postPoint(token, pointData, isFormData = false) {
   if (IS_MOCKING) {
     console.log('MOCK API: Simulating new point creation');
 
-    // Extrai dados (seja de FormData ou JSON)
     const data = isFormData ? Object.fromEntries(pointData.entries()) : pointData;
     const titleText = encodeURIComponent(data.descricao.split(' ')[0] || 'Novo');
 
@@ -91,7 +88,6 @@ export async function postPoint(token, pointData, isFormData = false) {
       longitude: parseFloat(data.longitude),
       imageUrl: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50%" x="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23A35E49">${titleText}</text><rect x="5" y="5" width="90" height="90" fill="none" stroke="%23000000" stroke-width="2"/></svg>`,
       isMyPet: true,
-      // IMPORTANTE: Salvando a cor escolhida no banco simulado
       color: data.color || "#E53E3E"
     };
 

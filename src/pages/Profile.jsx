@@ -4,23 +4,15 @@ import { Title, Button, Input } from "../components";
 
 export const Profile = () => {
     const navigate = useNavigate();
-
-    // Estados para os dados do perfil
     const [profileImage, setProfileImage] = useState(null);
     const [description, setDescription] = useState("");
     const [email, setEmail] = useState("usuario@exemplo.com");
     const [showEmail, setShowEmail] = useState(false);
-
-    // Novo estado para controlar a visibilidade do modal de sucesso
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleSaveProfile = (e) => {
         e.preventDefault();
-        // Mostra o modal customizado em vez do alert
         setShowSuccessModal(true);
-
-        // Opcional: Esconder o modal automaticamente após alguns segundos
-        // setTimeout(() => setShowSuccessModal(false), 3000);
     };
 
     return (
