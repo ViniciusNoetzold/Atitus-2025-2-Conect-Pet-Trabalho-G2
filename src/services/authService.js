@@ -1,45 +1,40 @@
-import axios from 'axios';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://ripe-donella-atitus-fbbf314a.koyeb.app';
-const API_URL = `${BASE_URL}/auth`;
-const IS_MOCKING = import.meta.env.VITE_MOCK_API === 'true';
-const MOCK_TOKEN = 'mock-auth-token-123';
+import { api } from "./api";
+
 export async function signIn(email, password) {
-  if (IS_MOCKING) {
-    console.log('MOCK API: Simulating successful sign-in');
-    return new Promise((resolve) => setTimeout(() => resolve({ token: MOCK_TOKEN }), 500));
-  }
   try {
-    const response = await axios.post(`${API_URL}/signin`, { email, password });
+    const response = await api.post("/auth/signin", { email, password });
     return response.data;
   } catch (error) {
-    if (error.response) {
-      if (error.response.status === 400) {
-        throw new Error('Requisição inválida.');
-      }
-      if (error.response.status === 401) {
-        throw new Error('Usuário ou senha incorretos.');
-      }
-    }
-    throw new Error('Erro ao autenticar.');
+    throw new Error(error.response?.data?.message || "Erro ao fazer login.");
   }
 }
+
 export async function signUp(name, email, password) {
-  if (IS_MOCKING) {
-    console.log('MOCK API: Simulating successful sign-up');
-    return new Promise((resolve) => setTimeout(() => resolve({ message: 'Usuário cadastrado com sucesso (MOCK).' }), 500));
-  }
   try {
-    const response = await axios.post(`${API_URL}/signup`, { name, email, password });
+    const response = await api.post("/auth/signup", { name, email, password });
     return response.data;
   } catch (error) {
-    if (error.response) {
-      if (error.response.status === 400) {
-        throw new Error('Requisição inválida.');
-      }
-      if (error.response.status === 409) {
-        throw new Error('Usuário já cadastrado.');
-      }
-    }
-    throw new Error('Erro ao cadastrar usuário.');
+    throw new Error(error.response?.data?.message || "Erro ao cadastrar usuário.");
+  }
+}
+
+export async function getUserProfile() {
+  try {
+
+    const response = await api.get("/auth/me");
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function updateUserProfile(formData) {
+  try {
+    const response = await api.put("/auth/me", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Erro ao atualizar perfil.");
   }
 }
