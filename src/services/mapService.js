@@ -1,30 +1,29 @@
 import { api } from "./api";
-const POINTS_URL = "/ws/point";
+
+const API_URL = "/api/animais";
+
 export async function getPoints() {
   try {
-    const response = await api.get(POINTS_URL);
-    return response.data.map((point) => ({
-      id: point.id,
-      title: point.descricao,
+    const response = await api.get(`${API_URL}/disponiveis`);
+    return response.data.map((animal) => ({
+      id: animal.id,
+      title: animal.nome || "Pet",
+      description: animal.descricao, // Adicionamos descrição para ver no mapa
       position: {
-        lat: Number(point.latitude),
-        lng: Number(point.longitude),
+        lat: animal.latitude,
+        lng: animal.longitude,
       },
-      imageUrl: point.imageUrl || null,
-      color: point.color || "#E53E3E",
-      isMyPet: point.isMyPet || false,
+      color: animal.color || "#E53E3E", // Usa a cor salva ou vermelho
+      isMyPet: false,
     }));
   } catch (error) {
-    console.error("Erro ao buscar pontos:", error);
-    throw new Error(error.response?.data?.message || "Erro ao carregar mapa.");
+    console.error(error);
+    return [];
   }
 }
-export async function postPoint(pointData) {
-  try {
-    const response = await api.post(POINTS_URL, pointData);
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao salvar ponto:", error);
-    throw new Error(error.response?.data?.message || "Erro ao cadastrar pet.");
-  }
+
+export async function postPoint(jsonData) {
+  // Envia JSON normal
+  const response = await api.post(API_URL, jsonData);
+  return response.data;
 }
