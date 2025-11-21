@@ -3,15 +3,19 @@ import { Navbar, Input, Button } from "../components";
 import { GoogleMap, Marker, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
 import { getPoints, postPoint } from '../services/mapService';
 import { useAuth } from "../contexts/AuthContext";
+
 const containerStyle = {
   width: "100%",
   height: "calc(100vh - 65px)",
 };
+
 const defaultCenter = {
   lat: -23.55052,
   lng: -46.633308,
 };
+
 const PIN_ICON_PATH = "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z";
+
 const COLOR_OPTIONS = [
   "#E53E3E",
   "#3182CE",
@@ -19,6 +23,7 @@ const COLOR_OPTIONS = [
   "#D69E2E",
   "#805AD5"
 ];
+
 export const Map = () => {
   const { token } = useAuth();
   const [markers, setMarkers] = useState([]);
@@ -28,13 +33,15 @@ export const Map = () => {
   const [newPointColor, setNewPointColor] = useState(COLOR_OPTIONS[0]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [showMyPetsOnly, setShowMyPetsOnly] = useState(false);
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
   });
+
   useEffect(() => {
     async function fetchMarkers() {
       try {
-        const data = await getPoints(token);
+        constVP = await getPoints(token);
         setMarkers(data);
       } catch (error) {
         console.log(error.message);
@@ -42,13 +49,16 @@ export const Map = () => {
     }
     fetchMarkers();
   }, [token]);
+
   const toggleMyPetsFilter = () => {
     setShowMyPetsOnly(!showMyPetsOnly);
     setSelectedMarker(null);
   };
+
   const filteredMarkers = showMyPetsOnly
     ? markers.filter(marker => marker.isMyPet)
     : markers;
+
   const handleMapClick = (event) => {
     setSelectedMarker(null);
     const lat = event.latLng.lat();
@@ -58,35 +68,35 @@ export const Map = () => {
     setNewPointImage(null);
     setNewPointColor(COLOR_OPTIONS[0]);
   };
+
   const handleMarkerClick = (marker) => {
     setNewPointCoords(null);
     setSelectedMarker(marker);
   };
+
   const handleSavePoint = async (e) => {
     e.preventDefault();
     if (!newPointCoords || !newPointDescription.trim()) {
       alert("A descrição é obrigatória.");
       return;
     }
-    const isImageAttached = !!newPointImage;
-    let dataToSend;
-    if (isImageAttached) {
-      dataToSend = new FormData();
-      dataToSend.append('latitude', newPointCoords.lat);
-      dataToSend.append('longitude', newPointCoords.lng);
-      dataToSend.append('descricao', newPointDescription.trim());
+
+    // CORREÇÃO: Sempre usar FormData para garantir compatibilidade com o Backend
+    const dataToSend = new FormData();
+    dataToSend.append('latitude', newPointCoords.lat);
+    dataToSend.append('longitude', newPointCoords.lng);
+    dataToSend.append('descricao', newPointDescription.trim());
+    dataToSend.append('color', newPointColor);
+
+    // Só anexa a imagem se o usuário tiver selecionado uma
+    if (newPointImage) {
       dataToSend.append('image', newPointImage);
-      dataToSend.append('color', newPointColor);
-    } else {
-      dataToSend = {
-        latitude: newPointCoords.lat,
-        longitude: newPointCoords.lng,
-        descricao: newPointDescription.trim(),
-        color: newPointColor,
-      };
     }
+
     try {
-      const savedPoint = await postPoint(token, dataToSend, isImageAttached);
+      // O 'true' no final força o envio como FormData (multipart/form-data)
+      const savedPoint = await postPoint(token, dataToSend, true);
+
       const savedMarker = {
         id: savedPoint.id,
         title: savedPoint.descricao || newPointDescription.trim(),
@@ -95,6 +105,7 @@ export const Map = () => {
         color: newPointColor,
         isMyPet: true
       };
+
       setMarkers((prev) => [...prev, savedMarker]);
       setNewPointCoords(null);
       setNewPointDescription("");
@@ -103,9 +114,9 @@ export const Map = () => {
       alert(error.message);
     }
   };
+
   return (
     <>
-      { }
       <Navbar onFilterMyPets={toggleMyPetsFilter} showMyPetsOnly={showMyPetsOnly} />
       <div style={{ width: "100%", height: "calc(100vh - 65px)" }}>
         {isLoaded ? (
@@ -132,13 +143,14 @@ export const Map = () => {
                 }}
               />
             ))}
+
             {selectedMarker && (
               <InfoWindow
                 position={selectedMarker.position}
                 onCloseClick={() => setSelectedMarker(null)}
               >
                 <div className="p-3" style={{ color: '#000000', backgroundColor: '#F7EEDD', border: '3px solid #000000', maxWidth: '300px', minWidth: '250px' }}>
-                  <h3 className="font-bold text-lg mb-3 uppercase border-b-2 border-black pb-2 break-words">
+                  <h3 className="font-bold text-lg mb-3 uppercase border-b-2 border-black pb-2wk-words">
                     {selectedMarker.title}
                   </h3>
                   {selectedMarker.imageUrl && (
@@ -161,6 +173,7 @@ export const Map = () => {
                 </div>
               </InfoWindow>
             )}
+
             {newPointCoords && (
               <Marker
                 position={newPointCoords}
@@ -181,6 +194,7 @@ export const Map = () => {
             <h1 className="text-white text-2xl">Carregando mapa...</h1>
           </div>
         )}
+
         {newPointCoords && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#F7EEDD] p-6 rounded-none border-4 border-[#000000] shadow-[10px_10px_0_0_#A35E49] z-20 w-80 text-[#000000]">
             <h2 className="text-xl font-bold mb-4 uppercase text-center">Cadastrar Novo Pet</h2>
@@ -195,6 +209,7 @@ export const Map = () => {
                   onChange={(e) => setNewPointDescription(e.target.value)}
                 />
               </div>
+
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-1">Foto do Pet (Opcional)</label>
                 <input
@@ -206,7 +221,7 @@ export const Map = () => {
                 />
                 <label
                   htmlFor="pet-file-upload"
-                  className="w-full text-base cursor-pointer px-4 py-2 block"
+                  className="w-full text-base cursor-pointer px-4 py-2WKock"
                   style={{
                     backgroundColor: '#F7EEDD',
                     border: '3px solid #000000',
@@ -219,6 +234,7 @@ export const Map = () => {
                   {newPointImage ? newPointImage.name : "Escolher arquivo..."}
                 </label>
               </div>
+
               <div className="mb-6">
                 <label className="block text-sm font-bold mb-2">Cor do Pino</label>
                 <div className="flex justify-center gap-3">
@@ -243,9 +259,11 @@ export const Map = () => {
                   ))}
                 </div>
               </div>
+
               <p className="text-sm mb-4 text-center">
                 Lat: {newPointCoords.lat.toFixed(4)}, Lng: {newPointCoords.lng.toFixed(4)}
               </p>
+
               <div className="flex justify-center gap-4">
                 <Button
                   type="button"
