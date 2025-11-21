@@ -41,7 +41,7 @@ export const Map = () => {
   useEffect(() => {
     async function fetchMarkers() {
       try {
-        constVP = await getPoints(token);
+        const data = await getPoints(token);
         setMarkers(data);
       } catch (error) {
         console.log(error.message);
@@ -81,20 +81,17 @@ export const Map = () => {
       return;
     }
 
-    // CORREÇÃO: Sempre usar FormData para garantir compatibilidade com o Backend
     const dataToSend = new FormData();
     dataToSend.append('latitude', newPointCoords.lat);
     dataToSend.append('longitude', newPointCoords.lng);
     dataToSend.append('descricao', newPointDescription.trim());
     dataToSend.append('color', newPointColor);
 
-    // Só anexa a imagem se o usuário tiver selecionado uma
     if (newPointImage) {
       dataToSend.append('image', newPointImage);
     }
 
     try {
-      // O 'true' no final força o envio como FormData (multipart/form-data)
       const savedPoint = await postPoint(token, dataToSend, true);
 
       const savedMarker = {
@@ -150,7 +147,7 @@ export const Map = () => {
                 onCloseClick={() => setSelectedMarker(null)}
               >
                 <div className="p-3" style={{ color: '#000000', backgroundColor: '#F7EEDD', border: '3px solid #000000', maxWidth: '300px', minWidth: '250px' }}>
-                  <h3 className="font-bold text-lg mb-3 uppercase border-b-2 border-black pb-2wk-words">
+                  <h3 className="font-bold text-lg mb-3 uppercase border-b-2 border-black pb-2 break-words">
                     {selectedMarker.title}
                   </h3>
                   {selectedMarker.imageUrl && (
@@ -221,7 +218,7 @@ export const Map = () => {
                 />
                 <label
                   htmlFor="pet-file-upload"
-                  className="w-full text-base cursor-pointer px-4 py-2WKock"
+                  className="w-full text-base cursor-pointer px-4 py-2 block"
                   style={{
                     backgroundColor: '#F7EEDD',
                     border: '3px solid #000000',
