@@ -1,35 +1,67 @@
-# 🐾 Conect Pet
+# Atitus Maps
 
-**Conect Pet** é uma aplicação web desenvolvida para conectar animais perdidos aos seus donos ou facilitar a adoção de pets. O projeto utiliza um mapa interativo onde usuários podem marcar a localização de animais, adicionar fotos, descrições e personalizar os marcadores.
+## Sobre
+Atitus Maps é uma aplicação web para visualizar e cadastrar pontos geográficos em um mapa interativo. Usuários autenticados podem adicionar novos pontos clicando no mapa; os pontos são salvos em um backend e exibidos para todos os usuários.
 
-O projeto apresenta uma identidade visual única no estilo **"Vintage Dark"** com elementos em bloco (blocky UI).
+## Recursos
+- Visualização de pontos no mapa.
+- Cadastro de novos pontos ao clicar no mapa.
+- Autenticação de usuários.
+- Integração com Google Maps.
 
-## 📸 Funcionalidades
+## Tecnologias
+- React (Vite)
+- @react-google-maps/api
+- Axios
 
-- **📍 Mapa Interativo:** Integração com Google Maps para visualização e cadastro de pontos.
-- **➕ Cadastro de Pets:**
-  - Adicionar descrição.
-  - **Upload de Foto:** Anexar foto do animal (com visualização no mapa).
-  - **Personalização de Cor:** Escolher a cor do pino (Vermelho, Azul, Verde, Amarelo, Roxo).
-- **🔐 Autenticação:** Telas de Login e Cadastro com animação de fundo estilo "DVD Screensaver".
-- **🎨 Design System:** Estilo visual "Vintage Dark" (Fundo `#2B2B24`, Elementos `#F7EEDD`, Acento `#A35E49`).
-- **📂 Sidebar de Navegação:** Menu lateral para acesso rápido ao Perfil, Filtros e Ajuda.
-- **👤 Perfil de Usuário:** Visualização e edição simulada de dados do usuário (Foto, Email, Bio).
-- **ℹ️ Central de Ajuda:** Informações sobre como usar a plataforma e dicas de segurança.
+## Pré-requisitos
+- Node.js (v18+ recomendado)
+- npm ou yarn
+- Chave de API do Google Maps com acesso a Maps JavaScript API
 
-## 🚀 Tecnologias Utilizadas
-
-- **[React](https://react.dev/)**: Biblioteca principal para construção da interface.
-- **[Vite](https://vitejs.dev/)**: Ferramenta de build rápida e otimizada.
-- **[Tailwind CSS](https://tailwindcss.com/)**: Framework de estilização utilitária.
-- **[@react-google-maps/api](https://www.npmjs.com/package/@react-google-maps/api)**: Integração com a API do Google Maps.
-- **[Axios](https://axios-http.com/)**: Cliente HTTP para requisições.
-
-## 🛠️ Instalação e Execução
-
-Siga os passos abaixo para rodar o projeto localmente.
-
-### 1. Clonar o repositório
+## Instalação e execução
+1. Clone o repositório:
 ```bash
-git clone https://github.com/ViniciusNoetzold/Atitus-2025-2-Conect-Pet-Trabalho-G2.git
-cd conect-pet
+git clone https://github.com/seu-usuario/atitus-maps.git
+cd atitus-maps
+```
+
+2. Instale dependências:
+```bash
+npm install
+# ou
+# yarn
+```
+
+3. Crie o arquivo `.env` na raiz do projeto com sua chave do Google Maps:
+```
+VITE_GOOGLE_MAPS_API_KEY=sua_chave_google_maps_aqui
+```
+Observação: o prefixo `VITE_` é obrigatório para variáveis de ambiente no Vite.
+
+4. Rode a aplicação em modo de desenvolvimento:
+```bash
+npm run dev
+```
+
+5. Abra no navegador:
+http://localhost:5173
+
+## Backend
+O backend utilizado pela aplicação (API de pontos) está disponível em:
+https://passing-agatha-atitus-0ca94c8f.koyeb.app/ws/point
+
+(Adapte a URL do backend se estiver usando sua própria API.)
+
+## Dicas e observações
+- Restrinja o uso da chave do Google Maps para seu domínio ou localhost nas configurações do console do Google para evitar uso indevido.
+- Se o mapa não carregar, verifique se a chave da API está correta e se a API Maps JavaScript está habilitada no console do Google.
+- Para produção, configure variáveis de ambiente adequadas e revise políticas de segurança da API.
+
+## Copiar exercício
+Para criar um repositório a partir do template no GitHub, clique em "Copiar Exercício" (abre em nova aba):
+<a id="copy-exercise" target="_blank" href="https://github.com/new?template_name=atitus-maps&template_owner=jaisonschmidt&name=atitus-maps&owner=%40me&visibility=public">
+   <img src="https://img.shields.io/badge/📠_Copiar_Exercício-008000" height="25pt"/>
+</a>
+
+---

@@ -1,162 +1,136 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Title, Button } from "../components";
-import { getUserProfile, updateUserProfile } from "../services/authService";
-import dogHead from '../assets/svg/dog_head.svg';
-import catHead from '../assets/svg/cat_head.svg';
-import bone from '../assets/svg/bone.svg';
-import yarn from '../assets/svg/yarn_ball.svg';
-const AVATARS = {
-    dog: dogHead,
-    cat: catHead,
-    bone: bone,
-    yarn: yarn
-};
+import { Title, Button, Input } from "../components";
+
 export const Profile = () => {
     const navigate = useNavigate();
-    const [name, setName] = useState("");
-    const [bio, setBio] = useState("");
-    const [email, setEmail] = useState("");
-    const [selectedAvatar, setSelectedAvatar] = useState("dog");
+    const [profileImage, setProfileImage] = useState(null);
+    const [description, setDescription] = useState("");
+    const [email, setEmail] = useState("usuario@exemplo.com");
     const [showEmail, setShowEmail] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isSaving, setIsSaving] = useState(false);
-    useEffect(() => {
-        getUserProfile().then(user => {
-            if (user) {
-                setName(user.name || "");
-                setEmail(user.email || "");
-                setBio(user.bio || "");
-                if (user.avatar && AVATARS[user.avatar]) {
-                    setSelectedAvatar(user.avatar);
-                }
-            }
-            setIsLoading(false);
-        });
-    }, []);
-    const handleSave = async (e) => {
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+    const handleSaveProfile = (e) => {
         e.preventDefault();
-        setIsSaving(true);
-        try {
-            await updateUserProfile({ name, bio, avatar: selectedAvatar });
-            alert("Perfil salvo com sucesso!");
-        } catch (error) {
-            alert("Erro ao salvar: " + error.message);
-        } finally {
-            setIsSaving(false);
-        }
+        setShowSuccessModal(true);
     };
-    const getMaskedEmail = (emailStr) => {
-        if (!emailStr) return "";
-        return emailStr.replace(/^(.{2})(.*)(@.*)$/, "$1***$3");
-    };
-    if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-[#2B2B24] text-[#F7EEDD] font-bold text-xl">CARREGANDO...</div>;
+
     return (
-        <div className="min-h-screen bg-[#2B2B24] p-6 flex flex-col items-center font-sans">
-            { }
+        <div className="min-h-screen bg-[#2B2B24] p-6 flex flex-col items-center relative">
+
+            {/* Cabeçalho com Botão Voltar */}
             <div className="w-full max-w-md flex items-center mb-8 relative">
                 <button
                     onClick={() => navigate('/map')}
-                    className="absolute left-0 text-[#F7EEDD] hover:text-[#A35E49] transition-colors flex items-center gap-2 font-bold uppercase"
+                    className="absolute left-0 text-[#F7EEDD] hover:text-[#A35E49] transition-colors"
                 >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M19 12H5M12 19l-7-7 7-7" />
                     </svg>
-                    Voltar
                 </button>
-                <div className="w-full text-center"><Title title="MEU PERFIL" /></div>
+                <div className="w-full text-center">
+                    <Title title="MINHA CONTA" />
+                </div>
             </div>
-            { }
-            <div className="w-full max-w-md bg-[#F7EEDD] p-8 border-4 border-black shadow-[10px_10px_0_0_#A35E49] text-black relative">
-                { }
-                <div className="absolute top-0 left-0 w-full h-4 bg-[#A35E49] border-b-4 border-black"></div>
-                <form onSubmit={handleSave} className="flex flex-col gap-6 mt-4">
-                    { }
-                    <div className="text-center">
-                        <label className="font-black block mb-3 uppercase text-lg tracking-wide">Escolha seu Avatar</label>
-                        <div className="flex justify-center gap-4 flex-wrap">
-                            {Object.keys(AVATARS).map(key => (
-                                <div
-                                    key={key}
-                                    onClick={() => setSelectedAvatar(key)}
-                                    className={`
-                                        cursor-pointer p-3 border-4 rounded-lg transition-all duration-200
-                                        ${selectedAvatar === key
-                                            ? 'border-[#A35E49] bg-white shadow-[4px_4px_0_0_#000] -translate-y-1'
-                                            : 'border-transparent hover:bg-white/50 hover:border-black'}
-                                    `}
-                                >
-                                    <img src={AVATARS[key]} alt={key} className="w-12 h-12" />
-                                </div>
-                            ))}
+
+            {/* Container Principal */}
+            <div className="w-full max-w-md bg-[#F7EEDD] p-8 border-4 border-black shadow-[10px_10px_0_0_#A35E49] text-black">
+
+                <form onSubmit={handleSaveProfile} className="flex flex-col gap-6">
+
+                    {/* 1. Foto de Perfil */}
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="w-32 h-32 bg-gray-300 border-4 border-black overflow-hidden flex items-center justify-center relative">
+                            {profileImage ? (
+                                <img src={URL.createObjectURL(profileImage)} alt="Perfil" className="w-full h-full object-cover" />
+                            ) : (
+                                <svg className="w-16 h-16 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            )}
                         </div>
-                    </div>
-                    <hr className="border-2 border-black border-dashed opacity-20" />
-                    { }
-                    <div>
-                        <label className="font-black block mb-1 uppercase text-sm">Nome</label>
+
                         <input
-                            type="text"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            className="w-full bg-white border-4 border-black p-3 font-bold focus:outline-none focus:border-[#A35E49] transition-colors placeholder-gray-400"
-                            placeholder="Seu nome..."
+                            id="profile-upload"
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => setProfileImage(e.target.files[0])}
                         />
+                        <label
+                            htmlFor="profile-upload"
+                            className="cursor-pointer text-sm font-bold text-[#A35E49] hover:underline uppercase"
+                        >
+                            Alterar Foto
+                        </label>
                     </div>
-                    { }
+
+                    {/* 2. E-mail com Olho (Hide/Show) */}
                     <div>
-                        <label className="font-black block mb-1 uppercase text-sm">Email</label>
-                        <div className="relative w-full">
-                            <div className="w-full bg-gray-200 border-4 border-black p-3 font-bold text-gray-700 flex items-center justify-between">
-                                <span className="truncate pr-2">
-                                    {showEmail ? email : getMaskedEmail(email)}
-                                </span>
-                                { }
-                                <button
-                                    type="button"
-                                    onClick={() => setShowEmail(!showEmail)}
-                                    className="text-black hover:text-[#A35E49] focus:outline-none transition-colors p-1"
-                                    title={showEmail ? "Esconder email" : "Mostrar email"}
-                                >
-                                    {showEmail ? (
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    ) : (
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                                            <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
-                                            <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
-                                            <line x1="2" x2="22" y1="2" y2="22"></line>
-                                        </svg>
-                                    )}
-                                </button>
+                        <label className="block text-sm font-bold mb-1 uppercase">Meu E-mail</label>
+                        <div className="relative">
+                            <div className="w-full h-[50px] bg-[#F7EEDD] border-[3px] border-black flex items-center px-4 text-[#2B2B24]">
+                                {showEmail ? email : email.replace(/^(.{2})(.*)(@.*)$/, "$1***$3")}
                             </div>
+                            <button
+                                type="button"
+                                onClick={() => setShowEmail(!showEmail)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black hover:text-[#A35E49]"
+                            >
+                                {showEmail ? (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+                                ) : (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" /><line x1="1" y1="1" x2="23" y2="23" /></svg>
+                                )}
+                            </button>
                         </div>
                     </div>
-                    { }
+
+                    {/* 3. Descrição do Perfil */}
                     <div>
-                        <label className="font-black block mb-1 uppercase text-sm">Bio</label>
+                        <label className="block text-sm font-bold mb-1 uppercase">Sobre Mim</label>
                         <textarea
-                            value={bio}
-                            onChange={e => setBio(e.target.value)}
-                            className="w-full bg-white border-4 border-black p-3 font-medium h-28 resize-none focus:outline-none focus:border-[#A35E49] transition-colors placeholder-gray-400"
-                            placeholder="Conte um pouco sobre você..."
+                            className="w-full min-h-[100px] bg-[#F7EEDD] border-[3px] border-black p-3 text-[#2B2B24] focus:outline-none resize-none"
+                            placeholder="Escreva algo sobre você..."
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                         />
                     </div>
-                    { }
-                    <div className="pt-2">
-                        <Button
-                            type="submit"
-                            disabled={isSaving}
-                            style={{ width: '100%', fontSize: '1.1rem', padding: '15px' }}
-                        >
-                            {isSaving ? "SALVANDO..." : "SALVAR ALTERAÇÕES"}
+
+                    {/* Botão Salvar */}
+                    <div className="flex justify-center pt-4">
+                        <Button type="submit">
+                            Salvar Alterações
                         </Button>
                     </div>
+
                 </form>
             </div>
+
+            {/* --- MODAL DE SUCESSO CUSTOMIZADO --- */}
+            {showSuccessModal && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm">
+                    {/* Caixa do Modal */}
+                    <div className="bg-[#F7EEDD] border-4 border-black shadow-[10px_10px_0_0_#A35E49] p-8 w-80 text-center animate-bounce-in">
+
+                        {/* Ícone de Sucesso (Check) */}
+                        <div className="w-16 h-16 bg-[#A35E49] rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-black">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F7EEDD" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+
+                        <h3 className="text-xl font-black uppercase text-black mb-2">Sucesso!</h3>
+                        <p className="text-black font-medium mb-6">Seu perfil foi atualizado corretamente.</p>
+
+                        <Button
+                            onClick={() => setShowSuccessModal(false)}
+                            style={{ width: '100%' }}
+                        >
+                            FECHAR
+                        </Button>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
